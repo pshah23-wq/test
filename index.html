@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Will you be my Valentine?</title>
 
-  <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -112,12 +111,12 @@
 
     .result h2 {
       font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0;
+      margin: 6px 0;
     }
 
     .fireworks {
       width: min(380px, 90vw);
-      margin: 10px auto 0;
+      margin: 12px auto 0;
       display: block;
       border-radius: 18px;
     }
@@ -130,101 +129,150 @@
 </head>
 
 <body>
-  <canvas id="confettiCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
 
-  <main class="card">
-    <h1>Amy, will you be my Valentine?</h1>
+<main class="card">
 
-    <section class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </section>
+<!-- ANIMAL -->
+<svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fur" x1="0" x2="1">
+      <stop offset="0" stop-color="#f7c7a1"/>
+      <stop offset="1" stop-color="#f2a97b"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="0" x2="1">
+      <stop offset="0" stop-color="#ff4d7d"/>
+      <stop offset="1" stop-color="#ff1f68"/>
+    </linearGradient>
+  </defs>
 
-    <div class="hint" id="hint">“No” seems a bit shy 😈</div>
+  <path d="M250 50 C250 33 270 25 282 38
+           C294 25 314 33 314 50
+           C314 78 282 92 282 106
+           C282 92 250 78 250 50Z"
+        fill="url(#heart)"/>
 
-    <section class="result" id="result">
-      <h2>YAY! 💖 I’m so happy you said yes, Amy!</h2>
+  <path d="M90 120 C90 70 140 40 190 60
+           C240 40 290 70 290 120
+           C290 180 240 210 190 210
+           C140 210 90 180 90 120Z"
+        fill="url(#fur)"/>
 
-      <p style="margin-top:6px; font-size:16px; opacity:.85;">
-        — from me 💕
-      </p>
+  <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
+  <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
 
-      <p style="margin-top:10px; font-size:15px; opacity:.8;">
-        💌 this song reminded me of you
-      </p>
+  <circle cx="160" cy="130" r="8"/>
+  <circle cx="220" cy="130" r="8"/>
 
-      <p style="font-size:13px; opacity:.6;">
-        🎶 “Break from Toronto” — PARTYNEXTDOOR
-      </p>
+  <path d="M190 144 C186 144 182 148 182 152
+           C182 160 190 164 190 170
+           C190 164 198 160 198 152
+           C198 148 194 144 190 144Z"
+        fill="#ff7aa2"/>
+</svg>
 
-      <img
-        class="fireworks"
-        src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-        alt="Fireworks"
-      />
-    </section>
-  </main>
+<h1>Amy, will you be my Valentine?</h1>
 
-  <!-- AUDIO -->
-  <audio id="valentineSong" preload="auto">
-    <source src="break-from-toronto.mp3" type="audio/mpeg">
-  </audio>
+<section class="button-zone" id="zone">
+  <button id="yesBtn">Yes</button>
+  <button id="noBtn">No</button>
+</section>
 
-  <script>
-    const zone = document.getElementById("zone");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-    const hint = document.getElementById("hint");
+<div class="hint" id="hint">“No” seems a bit shy 😈</div>
 
-    const confettiCanvas = document.getElementById("confettiCanvas");
+<section class="result" id="result">
+  <h2>YAY! 💖</h2>
+  <p style="margin:0; font-size:16px; opacity:.85;">— from me 💕</p>
+  <p style="margin-top:10px; font-size:15px; opacity:.8;">💌 this song reminded me of you</p>
 
-    function resizeConfettiCanvas() {
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      confettiCanvas.width = window.innerWidth * dpr;
-      confettiCanvas.height = window.innerHeight * dpr;
-    }
+  <img class="fireworks"
+       src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
+       alt="Fireworks" />
+</section>
 
-    resizeConfettiCanvas();
-    window.addEventListener("resize", resizeConfettiCanvas);
+</main>
 
-    const confettiInstance = confetti.create(confettiCanvas, {
-      resize: false,
-      useWorker: true
-    });
+<audio id="valentineSong">
+  <source src="break-from-toronto.mp3" type="audio/mpeg">
+</audio>
 
-    function fullScreenConfetti() {
-      const end = Date.now() + 1600;
-      (function frame() {
-        confettiInstance({
-          particleCount: 12,
-          spread: 90,
-          startVelocity: 45,
-          ticks: 180,
-          origin: { x: Math.random(), y: Math.random() * 0.3 }
-        });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    }
+<script>
+const zone = document.getElementById("zone");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const result = document.getElementById("result");
+const hint = document.getElementById("hint");
+const confettiCanvas = document.getElementById("confettiCanvas");
 
-    yesBtn.addEventListener("click", () => {
-      const song = document.getElementById("valentineSong");
-      song.volume = 0;
-      song.play();
+function resizeConfettiCanvas() {
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  confettiCanvas.width = window.innerWidth * dpr;
+  confettiCanvas.height = window.innerHeight * dpr;
+}
+resizeConfettiCanvas();
+window.addEventListener("resize", resizeConfettiCanvas);
 
-      let vol = 0;
-      const fade = setInterval(() => {
-        vol = Math.min(1, vol + 0.05);
-        song.volume = vol;
-        if (vol >= 1) clearInterval(fade);
-      }, 200);
+const confettiInstance = confetti.create(confettiCanvas, { resize:false });
 
-      zone.style.display = "none";
-      hint.style.display = "none";
-      result.style.display = "block";
-      resizeConfettiCanvas();
-      fullScreenConfetti();
-    });
-  </script>
+function fullScreenConfetti() {
+  confettiInstance({
+    particleCount: 300,
+    spread: 140,
+    startVelocity: 60,
+    origin: { x: 0.5, y: 0.55 }
+  });
+}
+
+function clamp(n, min, max) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function moveNo(x, y) {
+  const z = zone.getBoundingClientRect();
+  const b = noBtn.getBoundingClientRect();
+
+  let dx = (b.left + b.width/2) - x;
+  let dy = (b.top + b.height/2) - y;
+  let mag = Math.hypot(dx, dy) || 1;
+  dx /= mag; dy /= mag;
+
+  let left = clamp((b.left - z.left) + dx*150, 0, z.width - b.width);
+  let top  = clamp((b.top - z.top) + dy*150, 0, z.height - b.height);
+
+  noBtn.style.left = left + "px";
+  noBtn.style.top = top + "px";
+  noBtn.style.transform = "none";
+}
+
+zone.addEventListener("pointermove", e => {
+  const b = noBtn.getBoundingClientRect();
+  const d = Math.hypot((b.left+b.width/2)-e.clientX,(b.top+b.height/2)-e.clientY);
+  if (d < 140) moveNo(e.clientX, e.clientY);
+});
+
+noBtn.addEventListener("pointerdown", e => {
+  e.preventDefault();
+  moveNo(e.clientX, e.clientY);
+});
+
+yesBtn.addEventListener("click", async () => {
+  const song = document.getElementById("valentineSong");
+  song.volume = 0;
+  await song.play();
+
+  let v = 0;
+  const fade = setInterval(() => {
+    v += 0.05;
+    song.volume = Math.min(v, 1);
+    if (v >= 1) clearInterval(fade);
+  }, 200);
+
+  zone.style.display = "none";
+  hint.style.display = "none";
+  result.style.display = "block";
+  resizeConfettiCanvas();
+  fullScreenConfetti();
+});
+</script>
 </body>
 </html>
